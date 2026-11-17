@@ -1,5 +1,5 @@
 :HL["/bella-figura-next-preview/_next/static/chunks/122afmgve8_p3.css","style"]
-:HL["/bella-figura-next-preview/_next/static/chunks/3exd1sqaiqhiw.css","style"]
+:HL["/bella-figura-next-preview/_next/static/chunks/2-vs5ctfzzv9n.css","style"]
 :HL["/bella-figura-next-preview/_next/static/media/4cf231d25563e07b-s.p.2874ccu1_u7jf.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/bella-figura-next-preview/_next/static/media/d90dd95b053d9495-s.p.3r2y_bth_sjsm.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/bella-figura-next-preview/_next/static/media/dcfedef55b10026d-s.p.40m0sdlh8l0dz.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
@@ -9,4 +9,4 @@
 3:[["children",{"s":"treatments","h":131168,"c":"$Q4"}]]
 2:[["children",{"s":"(main)","h":131168,"c":"$Q3"}]]
 1:[["children",{"s":"(site)","h":131168,"c":"$Q2"}]]
-0:{"b":"3EAOzxFgJ9oawLWO7_smc","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
+0:{"b":"epyHdeantrj1MnNNV0vgm","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
