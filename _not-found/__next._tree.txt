@@ -1,4 +1,4 @@
-:HL["/bella-figura-next-preview/_next/static/chunks/122afmgve8_p3.css","style"]
+:HL["/bella-figura-next-preview/_next/static/chunks/1euv6ev0hmno2.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":96,"c":"$Q2"}]]
-0:{"b":"cbuevO3KMscw11bJK0MiG","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"wvKoZ2tjgZUK56YexPvMu","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
