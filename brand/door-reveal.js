@@ -12,8 +12,11 @@
 
   var css = [
     /* Description now lives behind the door. */
-    ".treatment[data-bfd] .treatment__text,.treatment[data-bfd] .treatment__foot{display:none}",
+    ".treatment[data-bfd] .treatment__text,.treatment[data-bfd] .treatment__foot,.treatment .bfd-perks{display:none}",
+    ".bfd__room .bfd-perks{display:grid;gap:.35rem;list-style:none;margin:0 0 1rem;padding:0;font-size:.82rem;letter-spacing:.04em;color:var(--gold-deep,#8a6a3a)}",
+    ".bfd__room .bfd-perks li:before{content:'\\2726  ';color:#c9a46a}",
     ".treatment[data-bfd] .treatment__media{cursor:pointer}",
+    ".treatment[data-sculpt] .treatment__photo{opacity:1!important;filter:drop-shadow(0 1.5rem 2rem #c2785a40)}",
     ".treatment[data-bfd] .treatment__media .treatment__photo{transition:transform .5s cubic-bezier(.2,.7,.2,1)}",
     ".treatment[data-bfd] .treatment__media:hover .treatment__photo{transform:scale(1.03)}",
 
@@ -78,7 +81,7 @@
     ".bfd.is-open .bfd__room>*{opacity:1;transform:none}",
     ".bfd.is-open .bfd__room>*:nth-child(1){transition-delay:.8s}.bfd.is-open .bfd__room>*:nth-child(2){transition-delay:.95s}",
     ".bfd.is-open .bfd__room>*:nth-child(3){transition-delay:1.1s}.bfd.is-open .bfd__room>*:nth-child(4){transition-delay:1.25s}",
-    ".bfd.is-open .bfd__room>*:nth-child(5){transition-delay:1.4s}.bfd.is-open .bfd__room>*:nth-child(6){transition-delay:1.55s}",
+    ".bfd.is-open .bfd__room>*:nth-child(7){transition-delay:1.7s}.bfd.is-open .bfd__room>*:nth-child(5){transition-delay:1.4s}.bfd.is-open .bfd__room>*:nth-child(6){transition-delay:1.55s}",
     ".bfd__medal{flex:none;width:calc(var(--door-w) * .24);aspect-ratio:1;border-radius:50%;overflow:hidden;margin:0 0 .7rem;",
     "box-shadow:0 0 0 1px #c9a46a,0 0 0 .3rem #fbf6ec,0 0 0 calc(.3rem + 1px) #c9a46a99,0 .8rem 1.6rem -.8rem #592c1d80}",
     ".bfd__medal img{width:100%;height:100%;object-fit:cover;display:block}",
@@ -206,11 +209,11 @@
     var door = el("div", "bfd__door");
     var room = el("div", "bfd__room");
 
-    var img = section.querySelector(".treatment__photo img");
+    var img = section.hasAttribute("data-sculpt") ? null : section.querySelector(".treatment__photo img");
     if (img) {
       var medal = el("div", "bfd__medal");
       var im = document.createElement("img");
-      im.src = img.currentSrc || img.src;
+      im.src = (img.hasAttribute("srcset") && img.currentSrc) || img.src;
       im.alt = "";
       medal.appendChild(im);
       room.appendChild(medal);
@@ -224,6 +227,8 @@
     room.appendChild(el("span", "bfd__rule"));
     var text = section.querySelector(".treatment__text");
     if (text) room.appendChild(text.cloneNode(true));
+    var perks = section.querySelector(".bfd-perks");
+    if (perks) room.appendChild(perks.cloneNode(true));
     var foot = section.querySelector(".treatment__foot");
     if (foot) { foot = foot.cloneNode(true); foot.className = "treatment__foot"; foot.removeAttribute("style"); room.appendChild(foot); }
 
@@ -276,7 +281,7 @@
     if (photo) {
       var inside = el("span", "bfd-mini__inside");
       var pi = document.createElement("img");
-      pi.src = photo.currentSrc || photo.src;
+      pi.src = (photo.hasAttribute("srcset") && photo.currentSrc) || photo.src;
       pi.alt = "";
       inside.appendChild(pi);
       mini.appendChild(inside);
@@ -300,10 +305,67 @@
     copy.appendChild(btn);
   }
 
+  /* Body Sculpt: the featured new machine, built from the same section as the others. */
+  var SCULPT = {
+    note: "Muscle sculpting \u00b7 New",
+    title: "Body Sculpt",
+    tagline: "Strength, without the workout",
+    text: "Lie back while focused electromagnetic energy draws your muscles into deep, rhythmic contractions, thousands of them in half an hour. Firmer, lifted and more defined, with nothing to recover from.",
+    perks: ["Abs \u00b7 glutes \u00b7 arms \u00b7 thighs", "No sweat, no downtime"],
+    facts: ["30 min", "New"]
+  };
+
+  function addSculpt(first) {
+    if (document.querySelector("section.treatment[data-sculpt]")) return;
+    var sec = first.cloneNode(true);
+    sec.removeAttribute("data-form");
+    sec.setAttribute("data-sculpt", "");
+    sec.querySelectorAll("[data-form-anchor]").forEach(function (n) { n.removeAttribute("data-form-anchor"); });
+    sec.removeAttribute("data-bfd");
+    sec.setAttribute("aria-labelledby", "treatment-body-sculpt");
+    sec.querySelectorAll(".bfd-open-btn,.treatment__accent").forEach(function (n) { n.remove(); });
+    sec.querySelectorAll("[data-parallax]").forEach(function (n) { n.removeAttribute("data-parallax"); });
+    sec.querySelectorAll("[data-bfd-media]").forEach(function (n) { n.removeAttribute("data-bfd-media"); });
+    sec.querySelectorAll(".reveal").forEach(function (n) { n.classList.add("is-in"); });
+    var num = sec.querySelector(".treatment__numeral");
+    if (num) num.textContent = "New";
+    var img = sec.querySelector(".treatment__photo img");
+    if (img) {
+      img.removeAttribute("srcset");
+      img.removeAttribute("sizes");
+      img.removeAttribute("loading");
+      img.src = base + "images/body-sculpt.svg";
+      img.alt = "Body Sculpt at Bella Figura";
+    }
+    var set = function (sel, txt) { var n = sec.querySelector(sel); if (n) n.textContent = txt; return n; };
+    set(".treatment__note", SCULPT.note);
+    var t = set(".treatment__title", SCULPT.title);
+    if (t) t.id = "treatment-body-sculpt";
+    var tag = sec.querySelector(".treatment__tagline");
+    if (tag) tag.innerHTML = "<em>" + SCULPT.tagline + "</em>";
+    var text = set(".treatment__text", SCULPT.text);
+    if (text) {
+      var ul = el("ul", "bfd-perks");
+      SCULPT.perks.forEach(function (p) { ul.appendChild(el("li", "", p)); });
+      text.parentNode.insertBefore(ul, text.nextSibling);
+    }
+    var facts = sec.querySelector(".treatment__facts");
+    if (facts) facts.innerHTML = "<span>" + SCULPT.facts[0] + "</span><span>" + SCULPT.facts[1] + "</span>";
+    var foot = sec.querySelector(".treatment__foot");
+    if (foot) {
+      var a = foot.querySelectorAll("a");
+      if (a[0]) { a[0].href = base + "book/"; a[0].textContent = "Reserve your hour"; a[0].setAttribute("aria-label", "Reserve Body Sculpt"); }
+      if (a[1]) a[1].remove();
+    }
+    first.parentNode.insertBefore(sec, first);
+  }
+
   function scan() {
     var list = document.querySelectorAll("section.treatment");
     if (!list.length) return;
     addStyle();
+    addSculpt(list[0]);
+    list = document.querySelectorAll("section.treatment");
     for (var i = 0; i < list.length; i++) enhance(list[i]);
   }
 
