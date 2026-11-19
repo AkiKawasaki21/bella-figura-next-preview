@@ -19,19 +19,21 @@
 
     ".bfd-open-btn{margin-top:var(--space-5,1.5rem);display:inline-flex;align-items:center;gap:1rem;padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;text-align:left}",
     ".bfd-open-btn:focus-visible{outline:2px solid var(--gold,#c9a46a);outline-offset:6px;border-radius:.5rem}",
-    ".bfd-mini{--door-w:4.6rem;--door-h:6.9rem;--crest:calc(var(--door-w) * .34);display:block;position:relative;flex:none;width:var(--door-w);height:var(--door-h);",
+    ".bfd-mini{--door-w:5.6rem;--door-h:8.2rem;--crest:calc(var(--door-w) * .34);display:block;position:relative;flex:none;width:var(--door-w);height:var(--door-h);",
     "border-radius:calc(var(--door-w) / 2) calc(var(--door-w) / 2) .25rem .25rem;perspective:420px;overflow:hidden;",
     "background:radial-gradient(50% 60% at 50% 40%,#fffdf4,#ffe9bf 55%,#f5d49a);",
     "box-shadow:0 0 0 1px var(--gold,#c9a46a),0 0 0 .3rem var(--pearl,#fbf6ec),0 0 0 calc(.3rem + 1px) #c9a46ab3,0 1rem 1.6rem -.9rem #592c1d8c}",
-    ".bfd-mini .gateway__leaf{display:block;transition:transform .7s cubic-bezier(.55,0,.2,1)}",
+    ".bfd-mini .gateway__leaf{display:block;z-index:2;transition:transform .7s cubic-bezier(.55,0,.2,1)}",
+    ".bfd-mini__inside{position:absolute;inset:0;z-index:1;display:block}.bfd-mini__inside img{width:100%;height:100%;object-fit:cover;display:block}",
+    ".bfd-mini__inside:after{content:'';position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 45%,#fff3d000,#fff3d055 70%,#f5d49a88)}",
     ".bfd-mini .gateway__crest{width:var(--crest);height:auto;position:absolute;top:13%}",
     ".bfd-mini .gateway__leaf--left .gateway__crest{right:calc(var(--crest) / -2)}.bfd-mini .gateway__leaf--right .gateway__crest{left:calc(var(--crest) / -2)}",
     ".bfd-mini .gateway__panel{border-radius:.15rem;box-shadow:none}",
     ".bfd-mini .gateway__handle{width:.14rem}",
-    ".bfd-open-btn:hover .bfd-mini .gateway__leaf--left,.bfd-open-btn:focus-visible .bfd-mini .gateway__leaf--left{transform:rotateY(-38deg)}",
-    ".bfd-open-btn:hover .bfd-mini .gateway__leaf--right,.bfd-open-btn:focus-visible .bfd-mini .gateway__leaf--right{transform:rotateY(38deg)}",
-    ".bfd-mini--peek .gateway__leaf--left{animation:bfd-peek-l 4.5s ease-in-out infinite}.bfd-mini--peek .gateway__leaf--right{animation:bfd-peek-r 4.5s ease-in-out infinite}",
-    "@keyframes bfd-peek-l{0%,62%,100%{transform:none}74%,84%{transform:rotateY(-26deg)}}@keyframes bfd-peek-r{0%,62%,100%{transform:none}74%,84%{transform:rotateY(26deg)}}",
+    ".bfd-open-btn:hover .bfd-mini .gateway__leaf--left,.bfd-open-btn:focus-visible .bfd-mini .gateway__leaf--left{transform:rotateY(-68deg)}",
+    ".bfd-open-btn:hover .bfd-mini .gateway__leaf--right,.bfd-open-btn:focus-visible .bfd-mini .gateway__leaf--right{transform:rotateY(68deg)}",
+    ".bfd-mini--peek .gateway__leaf--left{animation:bfd-peek-l 5s ease-in-out infinite}.bfd-mini--peek .gateway__leaf--right{animation:bfd-peek-r 5s ease-in-out infinite}",
+    "@keyframes bfd-peek-l{0%,45%,100%{transform:none}60%,85%{transform:rotateY(-70deg)}}@keyframes bfd-peek-r{0%,45%,100%{transform:none}60%,85%{transform:rotateY(70deg)}}",
     ".bfd-mini__spark{position:absolute;z-index:5;color:#d9a94f;text-shadow:0 0 .35rem #fff6dc,0 0 .8rem #f1c46f;font-size:.8rem;line-height:1;animation:bfd-twinkle 2.6s ease-in-out infinite}",
     ".bfd-open-btn__wrap{display:block;position:relative;flex:none}",
     ".bfd-open-btn__label{display:grid;gap:.3rem}",
@@ -270,6 +272,15 @@
     var wrap = el("span", "bfd-open-btn__wrap");
     var mini = el("span", "bfd-mini bfd-mini--peek");
     mini.setAttribute("aria-hidden", "true");
+    var photo = section.querySelector(".treatment__photo img");
+    if (photo) {
+      var inside = el("span", "bfd-mini__inside");
+      var pi = document.createElement("img");
+      pi.src = photo.currentSrc || photo.src;
+      pi.alt = "";
+      inside.appendChild(pi);
+      mini.appendChild(inside);
+    }
     mini.appendChild(leaf("left"));
     mini.appendChild(leaf("right"));
     wrap.appendChild(mini);
