@@ -34,7 +34,7 @@ const vec3 PEARL = vec3(0.992, 0.962, 0.915);
 const vec3 GOLD = vec3(0.800, 0.615, 0.395);
 const vec3 EMBER = vec3(0.905, 0.345, 0.165);
 const vec3 GLOW = vec3(1.000, 0.760, 0.500);
-const vec3 NIGHT = vec3(0.195, 0.024, 0.029);
+const vec3 NIGHT = vec3(0.150, 0.052, 0.040);
 const float BODY_2 = 0.82;
 const float BODY_3 = 0.92;
 
