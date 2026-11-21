@@ -16,6 +16,8 @@
     ".bfd__room .bfd-perks{display:grid;gap:.35rem;list-style:none;margin:0 0 1rem;padding:0;font-size:.82rem;letter-spacing:.04em;color:var(--gold-deep,#8a6a3a)}",
     ".bfd__room .bfd-perks li:before{content:'\\2726  ';color:#c9a46a}",
     ".treatment[data-bfd] .treatment__media{cursor:pointer}",
+    ".bfd-pack{margin:-.35rem 0 0;font-family:var(--font-display,serif);font-style:italic;font-size:1rem;color:var(--ember,#c4452c)}",
+    ".bfd-soon{cursor:default;pointer-events:none;background:transparent!important;color:var(--ink,#2a1a14)!important;box-shadow:inset 0 0 0 1px #c9a46a!important}",
     ".treatment[data-sculpt] .treatment__photo{opacity:1!important;filter:drop-shadow(0 1.5rem 2rem #c2785a40)}",
     ".treatment[data-bfd] .treatment__media .treatment__photo{transition:transform .5s cubic-bezier(.2,.7,.2,1)}",
     ".treatment[data-bfd] .treatment__media:hover .treatment__photo{transform:scale(1.03)}",
@@ -307,12 +309,13 @@
 
   /* Body Sculpt: the featured new machine, built from the same section as the others. */
   var SCULPT = {
-    note: "Muscle sculpting \u00b7 New",
+    note: "EM muscle sculpting \u00b7 Arriving February",
     title: "Body Sculpt",
     tagline: "Strength, without the workout",
     text: "Lie back while focused electromagnetic energy draws your muscles into deep, rhythmic contractions, thousands of them in half an hour. Firmer, lifted and more defined, with nothing to recover from.",
     perks: ["Abs \u00b7 glutes \u00b7 arms \u00b7 thighs", "No sweat, no downtime"],
-    facts: ["30 min", "New"]
+    facts: ["30 min", "$90"],
+    pack: "Or a series of ten for $800"
   };
 
   function addSculpt(first) {
@@ -328,7 +331,7 @@
     sec.querySelectorAll("[data-bfd-media]").forEach(function (n) { n.removeAttribute("data-bfd-media"); });
     sec.querySelectorAll(".reveal").forEach(function (n) { n.classList.add("is-in"); });
     var num = sec.querySelector(".treatment__numeral");
-    if (num) num.textContent = "New";
+    if (num) num.textContent = "Soon";
     var img = sec.querySelector(".treatment__photo img");
     if (img) {
       img.removeAttribute("srcset");
@@ -350,11 +353,17 @@
       text.parentNode.insertBefore(ul, text.nextSibling);
     }
     var facts = sec.querySelector(".treatment__facts");
-    if (facts) facts.innerHTML = "<span>" + SCULPT.facts[0] + "</span><span>" + SCULPT.facts[1] + "</span>";
+    if (facts) {
+      facts.innerHTML = "<span>" + SCULPT.facts[0] + "</span><span>" + SCULPT.facts[1] + "</span>";
+      facts.parentNode.insertBefore(el("p", "bfd-pack", SCULPT.pack), facts.nextSibling);
+    }
     var foot = sec.querySelector(".treatment__foot");
     if (foot) {
       var a = foot.querySelectorAll("a");
-      if (a[0]) { a[0].href = base + "book/"; a[0].textContent = "Reserve your hour"; a[0].setAttribute("aria-label", "Reserve Body Sculpt"); }
+      if (a[0]) {
+        var soon = el("span", a[0].className + " bfd-soon", "Arriving in February");
+        a[0].parentNode.replaceChild(soon, a[0]);
+      }
       if (a[1]) a[1].remove();
     }
     first.parentNode.insertBefore(sec, first);
